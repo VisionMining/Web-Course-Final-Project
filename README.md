@@ -1,4 +1,4 @@
 # Web-Course-Final-Project
 
 ## Data Source
-URL: <http://www2.informatik.uni-freiburg.de/~cziegler/BX/>
+The course provided raw data is from this URL: <http://www2.informatik.uni-freiburg.de/~cziegler/BX/>

@@ -53,6 +53,15 @@ def compute_save_item_map(input_file_name, output_file_name):
 
 
 def get_user_item_map(user_map_file_name, item_map_file_name):
+    """
+
+    :param user_map_file_name:
+    :type user_map_file_name: str
+    :param item_map_file_name:
+    :type item_map_file_name: str
+    :return:
+    :rtype: dict, dict
+    """
     user_map_dict = {}
     with open(user_map_file_name, mode='r', encoding='utf-8', errors='replace') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
