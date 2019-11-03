@@ -3,7 +3,7 @@ import sys
 
 sys.path.append('..')
 
-from ratingReader import RatingReader
+from rating_reader import RatingReader
 from utility import adjust_cosine, cosine_based, correlation_based
 
 

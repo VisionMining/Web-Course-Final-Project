@@ -5,7 +5,7 @@ from scipy.sparse import coo_matrix
 sys.path.append('..')
 
 from utility import adjust_cosine, cosine_based, correlation_based
-from ratingReader import RatingReader
+from rating_reader import RatingReader
 
 rating_file = 'Processed-Data/mapped-ratings.csv'
 rr = RatingReader(rating_file, k_fold=5)
