@@ -131,10 +131,6 @@ class RatingReader:
         return np.array(self.__items_mean_rating, dtype=float)
 
     def get_training_set(self):
-        if len(self.__training_set) == 0:
-            for user_id in range(self.__user_num):
-                for item_id, rating in self.__training_user_adj[user_id].items():
-                    self.__training_set.append((user_id, item_id, rating))
         return copy.deepcopy(self.__training_set)
 
     def get_test_set(self):
@@ -142,9 +138,9 @@ class RatingReader:
 
     def __str__(self):
         return f'user num: {self.__user_num}, item num: {self.__item_num}\n' \
-            f'user adj lists: {self.__user_adj_lists[1]}\n' \
-            f'train set user: {self.__training_user_adj[1]}\n' \
-            f'train set item: {self.__training_item_adj[34603]}\n' \
+            f'user adj lists: {self.__user_adj_lists[0]}\n' \
+            f'training set user: {self.__training_user_adj[0]}\n' \
+            f'training set item: {self.__training_item_adj[34603]}\n' \
             f'data size: {len(self.get_training_set())+len(self.get_test_set())}\n' \
             f'training set: {len(self.get_training_set())}'
 
@@ -153,8 +149,7 @@ if __name__ == "__main__":
     rating_file = 'Processed-Data/mapped-ratings.csv'
     rr = RatingReader(rating_file, k_fold=5)
     print(rr)
-    print(rr.get_user_rating_vector(1)[34603])
-    print(rr.get_item_rating_vector(34603)[1])
-    print(rr.get_rating(1, 34603))
-    print(rr.get_rating(1, 0))
+    # print(rr.get_user_rating_vector(1)[34603])
+    # print(rr.get_item_rating_vector(34603)[1])
+    # print(rr.get_users_mean_rating()[1])
     print('complete')
