@@ -27,12 +27,14 @@ class RatingReader:
         self.__user_adj_lists = {}
         self.__construct_user_adj_lists_by_rating_file()
 
-        self.__training_user_adj = [None] * self.__user_num
-        self.__training_item_adj = [None] * self.__item_num
         self.__training_set = []
         self.__test_set = []
-        self.__split_train_test_set_by_user()
-        self.__construct_training_item_adj_lists_by_training_user_adj()
+        self.__split_training_test_set_by_user()
+
+        self.__training_user_adj = [None] * self.__user_num
+        self.__training_item_adj = [None] * self.__item_num
+        self.__construct_training_user_adj_lists_by_training_set()
+        self.__construct_training_item_adj_lists_by_training_set()
 
         self.__users_mean_rating = [0.0] * self.__user_num
         self.__items_mean_rating = [0.0] * self.__item_num
@@ -55,22 +57,32 @@ class RatingReader:
                     self.__user_adj_lists[user_id] = [(item_id, rating)]
             print(header)
 
-    def __split_train_test_set_by_user(self):
-        for user_id, item_rating_list in self.__user_adj_lists.items():
+    def __split_training_test_set_by_user(self):
+        for user_id in range(self.__user_num):
+            item_rating_list = self.__user_adj_lists.get(user_id)
             self.__rand.shuffle(item_rating_list)
             total_size = len(item_rating_list)
             split_size = total_size // self.k_fold
-            self.__training_user_adj[user_id] = dict(item_rating_list[split_size:total_size])
-            for item_id, rating in item_rating_list[0:split_size]:
-                self.__test_set.append((user_id, item_id, rating))
-
-    def __construct_training_item_adj_lists_by_training_user_adj(self):
-        for user_id in range(self.__user_num):
-            for item_id, rating in self.__training_user_adj[user_id].items():
-                if self.__training_item_adj[item_id] is None:
-                    self.__training_item_adj[item_id] = {user_id: rating}
+            for idx in range(total_size):
+                item_id, rating = item_rating_list[idx]
+                if idx < split_size:
+                    self.__test_set.append((user_id, item_id, rating))
                 else:
-                    self.__training_item_adj[item_id][user_id] = rating
+                    self.__training_set.append((user_id, item_id, rating))
+
+    def __construct_training_user_adj_lists_by_training_set(self):
+        for user_id, item_id, rating in self.__training_set:
+            if self.__training_user_adj[user_id] is None:
+                self.__training_user_adj[user_id] = {item_id: rating}
+            else:
+                self.__training_user_adj[user_id][item_id] = rating
+
+    def __construct_training_item_adj_lists_by_training_set(self):
+        for user_id, item_id, rating in self.__training_set:
+            if self.__training_item_adj[item_id] is None:
+                self.__training_item_adj[item_id] = {user_id: rating}
+            else:
+                self.__training_item_adj[item_id][user_id] = rating
 
     def __compute_users_mean_rating(self):
         for user_id in range(self.__user_num):
