@@ -21,7 +21,7 @@ def filter_rating_by_zero(input_file_name, output_file_name):
     print('filter rating data by zero')
 
 
-def compute_save_user_map(input_file_name, output_file_name):
+def generate_save_user_map(input_file_name, output_file_name):
     user_set = set()
     with open(input_file_name, mode='r', encoding='utf-8', errors='replace') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
@@ -37,10 +37,10 @@ def compute_save_user_map(input_file_name, output_file_name):
         for mapped_user_id in range(len(user_list)):
             original_user_id = user_list[mapped_user_id]
             writer.writerow([original_user_id, mapped_user_id])
-    print('compute and save user map complete')
+    print('generate and save user map complete')
 
 
-def compute_save_item_map(input_file_name, output_file_name):
+def generate_save_item_map(input_file_name, output_file_name):
     item_set = set()
     with open(input_file_name, mode='r', encoding='utf-8', errors='replace') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
@@ -56,7 +56,7 @@ def compute_save_item_map(input_file_name, output_file_name):
         for mapped_item_id in range(len(item_list)):
             original_item_id = item_list[mapped_item_id]
             writer.writerow([original_item_id, mapped_item_id])
-    print('compute and save item map complete')
+    print('generate and save item map complete')
 
 
 def get_user_item_map(user_map_file_name, item_map_file_name):
@@ -90,7 +90,7 @@ def get_user_item_map(user_map_file_name, item_map_file_name):
     return user_map_dict, item_map_dict
 
 
-def compute_save_mapped_rating(user_map_dict, item_map_dict, input_file_name, output_file_name):
+def generate_save_mapped_rating(user_map_dict, item_map_dict, input_file_name, output_file_name):
     mapped_ratings = []
     with open(input_file_name, mode='r', encoding='utf-8', errors='replace') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
@@ -107,7 +107,7 @@ def compute_save_mapped_rating(user_map_dict, item_map_dict, input_file_name, ou
         writer.writerow(['mapped-user-id', 'mapped-item-id', 'rating'])
         for rating in mapped_ratings:
             writer.writerow(rating)
-    print('computer and save mapped rating data complete')
+    print('generate and save mapped rating data complete')
 
 
 if __name__ == "__main__":
@@ -118,8 +118,8 @@ if __name__ == "__main__":
     no_zero_rating_data_file = 'Processed-Data/no-zero-ratings.csv'
 
     filter_rating_by_zero(raw_rating_data_file, no_zero_rating_data_file)
-    compute_save_user_map(no_zero_rating_data_file, user_map_file)
-    compute_save_item_map(no_zero_rating_data_file, item_map_file)
+    generate_save_user_map(no_zero_rating_data_file, user_map_file)
+    generate_save_item_map(no_zero_rating_data_file, item_map_file)
     user_map, item_map = get_user_item_map(user_map_file, item_map_file)
-    compute_save_mapped_rating(user_map, item_map, no_zero_rating_data_file, mapped_rating_data_file)
+    generate_save_mapped_rating(user_map, item_map, no_zero_rating_data_file, mapped_rating_data_file)
     print('complete')
