@@ -108,7 +108,7 @@ class RatingReader:
 
     def get_rating(self, user_id, item_id):
         if self.contains_rating(user_id, item_id):
-            return self.__training_user_adj[item_id][item_id]
+            return self.__training_user_adj[user_id][item_id]
         else:
             return 0.0
 
@@ -144,14 +144,17 @@ class RatingReader:
         return f'user num: {self.__user_num}, item num: {self.__item_num}\n' \
             f'user adj lists: {self.__user_adj_lists[1]}\n' \
             f'train set user: {self.__training_user_adj[1]}\n' \
-            f'train set item: {self.__training_item_adj[93649]}\n' \
-            f'data size: {len(self.get_training_set())+len(self.get_test_set())}'
+            f'train set item: {self.__training_item_adj[34603]}\n' \
+            f'data size: {len(self.get_training_set())+len(self.get_test_set())}\n' \
+            f'training set: {len(self.get_training_set())}'
 
 
 if __name__ == "__main__":
     rating_file = 'Processed-Data/mapped-ratings.csv'
     rr = RatingReader(rating_file, k_fold=5)
     print(rr)
-    print(rr.get_user_rating_vector(1)[93649])
-    print(rr.get_item_rating_vector(93649)[1])
+    print(rr.get_user_rating_vector(1)[34603])
+    print(rr.get_item_rating_vector(34603)[1])
+    print(rr.get_rating(1, 34603))
+    print(rr.get_rating(1, 0))
     print('complete')
