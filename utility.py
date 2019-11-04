@@ -17,36 +17,22 @@ def cosine_based(vector1, vector2):
     return similarity
 
 
-def correlation_based(ui_matrix, users, items):
-    pass
-
-
-def adjust_cosine(ui_matrix, users, items):
-    for i in range(items):
-        user = ui_matrix[:, i]
-        whl = (user != 0)
-        useri = user[whl]
-        ui_matrix[:, i][whl] = ui_matrix[:, i][whl] - np.average(useri)
-
-    return cosine_based(ui_matrix, users, items)
-
-
-def MAE(res):
+def MAE(predict_value, true_value):
     error = 0
     count = 0
-    for entry in res:
-        error += abs(entry[2] - entry[3])
+    for i in range(len(predict_value)):
+        error += abs(predict_value[i] - true_value[i])
         count += 1
     if count == 0:
         return error
     return float(error) / count
 
 
-def RMSE(res):
+def RMSE(predict_value, true_value):
     error = 0
     count = 0
-    for entry in res:
-        error += abs(entry[2] - entry[3]) ** 2
+    for i in range(len(predict_value)):
+        error += abs(predict_value[i] - true_value[i]) ** 2
         count += 1
     if count == 0:
         return error
