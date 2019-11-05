@@ -58,14 +58,10 @@ class UserCf:
                     continue
                 new_u1 = u1[common] - self.users_mean_rating[user_id] + 0.000001
                 new_u2 = u2[common] - self.users_mean_rating[user_id_other] + 0.000001
-                sim = self.__correlation_based_similarity(new_u1, new_u2)
+                sim = np.dot(new_u1, new_u2) / (np.linalg.norm(new_u1, 2)*np.linalg.norm(new_u2, 2))
                 similarity.append((sim, user_id_other))
         similarity = sorted(similarity, key=lambda x: x[0], reverse=True)
         return similarity
-
-    def __correlation_based_similarity(self, new_u1, new_u2):
-        sim = np.dot(new_u1, new_u2) / (np.linalg.norm(new_u1, 2)*np.linalg.norm(new_u2, 2))
-        return sim
 
 
 if __name__ == '__main__':
